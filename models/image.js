@@ -37,6 +37,27 @@ exports.getAll = function() {
   });
 };
 
+exports.getOne = function(id) {
+  return new Promise((resolve, reject) => {
+    let sql = squel.select()
+                   .from('images')
+                   .where('id = ?', id)
+                   .toString();
+
+    connection.query(sql, (err, images) => {
+      let image = images[0];
+
+      if(err) {
+        reject(err);
+      } else if(!image) {
+        reject({error: 'Image not found.'})
+      } else {
+        resolve(image);
+      }
+    });
+  });
+};
+
 exports.create = function(newImage) {
   return new Promise((resolve, reject) => {
     let timestamp = moment().format('YYYY/MM/DD HH:mm:ss');
