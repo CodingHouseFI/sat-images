@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 
-
 // ROUTES
 let Image = require('./models/image');
 
@@ -34,13 +33,6 @@ app.get('/images', (req, res) => {
 });
 
 app.post('/images', (req, res) => {
-
-  // req.body:
-  // {
-  //   title:
-  //   url:
-  //   description:
-  // }
   Image.create(req.body)
     .then(() => {
       res.send();
@@ -48,11 +40,17 @@ app.post('/images', (req, res) => {
     .catch(err => {
       res.status(400).send(err);
     });
-
 });
 
-
-
+app.delete('/images/:id', (req, res) => {
+  Image.delete(req.params.id)
+    .then(() => {
+      res.send();
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+})
 
 // SERVER LISTEN
 app.listen(PORT, err => {
