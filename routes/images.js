@@ -7,6 +7,11 @@ const Image = require('../models/image');
 // image (lowercased singular)  --->  one image object
 // images (lowercased plural)  --->  array of image objects
 
+
+//////////////////
+//  Images Route
+//  base url:  /images
+
 router.get('/', (req, res) => {
   Image.getAll()
     .then(images => {

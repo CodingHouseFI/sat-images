@@ -12,6 +12,9 @@ const bodyParser = require('body-parser');
 // APP DECLARATION
 const app = express();
 
+// VIEW CONFIGURATION
+app.set('view engine', 'ejs');
+
 // GENERAL MIDDLEWARE
 app.use(morgan('dev'));
 app.use(bodyParser.json());
@@ -19,6 +22,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // ROUTES
+app.get('/', (req, res) => {
+  res.render('index');
+});
+
 app.use('/images', require('./routes/images'));
 
 // SERVER LISTEN
