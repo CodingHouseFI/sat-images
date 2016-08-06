@@ -1,3 +1,6 @@
+// INITIALIZE ENV. VARIABLES
+require('dotenv').config();
+
 // CONSTANTS
 const PORT = process.env.PORT || 8000;
 
@@ -15,7 +18,21 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
+
+
 // ROUTES
+let Image = require('./models/image');
+
+app.get('/images', (req, res) => {
+  Image.getAll()
+    .then(images => {
+      res.send(images);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+})
+
 
 
 
