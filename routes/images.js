@@ -3,6 +3,10 @@ const router = express.Router();
 
 const Image = require('../models/image');
 
+// Image (titlecased singular)  --->  model
+// image (lowercased singular)  --->  one image object
+// images (lowercased plural)  --->  array of image objects
+
 router.get('/', (req, res) => {
   Image.getAll()
     .then(images => {
@@ -12,11 +16,6 @@ router.get('/', (req, res) => {
       res.status(400).send(err);
     });
 });
-
-
-// Image (titlecased singular)  --->  model
-// image (lowercased singular)  --->  one image object
-// images (lowercased plural)  --->  array of image objects
 
 router.get('/:id', (req, res) => {
   Image.getOne(req.params.id)
@@ -48,20 +47,18 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-
 // PUT /images/:id
 router.put('/:id', (req, res) => {
   Image.update(req.params.id, req.body)
     .then(() => {
-      res.send();
+      return Image.getOne(req.params.id);
+    })
+    .then(image => {
+      res.send(image);
     })
     .catch(err => {
       res.status(400).send(err);
     });
-})
+});
 
 module.exports = router;
-
-
-
-
