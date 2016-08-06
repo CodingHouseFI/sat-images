@@ -3,6 +3,8 @@
 /////////////////
 
 const squel = require('squel').useFlavour('mysql');
+const uuid = require('uuid');
+const moment = require('moment');
 
 const connection = require('../config/db');
 
@@ -34,6 +36,30 @@ exports.getAll = function() {
     });
   });
 };
+
+exports.create = function(newImage) {
+  return new Promise((resolve, reject) => {
+    let timestamp = moment().format('YYYY/MM/DD HH:mm:ss');
+
+    let sql = squel.insert()
+                   .into('images')
+                   .setFields(newImage)
+                   .set('id', uuid())
+                   .set('createdAt', timestamp)
+                   .toString();
+
+    connection.query(sql, err => {
+      if(err) {
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
+  });
+};
+
+
+
 
 ////////////
 // Image.getAll()

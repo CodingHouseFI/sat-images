@@ -31,7 +31,25 @@ app.get('/images', (req, res) => {
     .catch(err => {
       res.status(400).send(err);
     });
-})
+});
+
+app.post('/images', (req, res) => {
+
+  // req.body:
+  // {
+  //   title:
+  //   url:
+  //   description:
+  // }
+  Image.create(req.body)
+    .then(() => {
+      res.send();
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
+
+});
 
 
 
